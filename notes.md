@@ -114,3 +114,7 @@ OBS: 2181 - zookeeper port
 
 # Partitions e Keys
 Como visto inicialmente, cada mensagem contém chave e valor. Para ser definido em qual partição a mensagem vai ser enviada, leva-se em conta a chave dessa mensagem. Ou seja, se a chave sempre for igual, a mensagem sempre será enviada para a mesma partição.
+
+# Produtores consumidores
+Um consumidor pode, após receber a mensagem do tópico inscrito, criar uma nova mensagem e enviar em algum novo tópico.
+![](images/2024-02-27_21-08.png)
