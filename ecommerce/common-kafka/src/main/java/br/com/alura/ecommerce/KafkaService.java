@@ -41,9 +41,10 @@ class KafkaService<T> implements Closeable {
                     // Usando try catch o erro é tratado e não quebra a execução do servico. As demais mensagens vão ser processadas normalmente
                     try {
                         parse.consume(record);
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
+                    } catch (Exception e) {
+                        // only catches Exception because no matter which Exception
+                        // i want to recover and parse the next one
+                        // so far, just logging the exception for this message
                         e.printStackTrace();
                     }
                 }
