@@ -36,10 +36,10 @@ public class FraudDetectorService {
         if (isFraud(order)) {
             // Considera fraude se amout > 4500
             System.out.println("FRAUD DETECTED!!!!!!!!");
-            orderDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getUserId(), order);
+            orderDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getEmail(), order);
         } else {
             System.out.println("Order processed");
-            orderDispatcher.send("ECOMMERCE_ORDER_APPROVED", order.getUserId(), order);
+            orderDispatcher.send("ECOMMERCE_ORDER_APPROVED", order.getEmail(), order);
         }
     }
 
