@@ -118,3 +118,17 @@ Como visto inicialmente, cada mensagem contém chave e valor. Para ser definido 
 # Produtores consumidores
 Um consumidor pode, após receber a mensagem do tópico inscrito, criar uma nova mensagem e enviar em algum novo tópico.
 ![](images/2024-02-27_21-08.png)
+
+# Enviando mensagens via requisição HTTP
+- Criar módulo novo com dependência do jetty aplicadaç
+- Inicia um servidor com o jetty, lidar com requisições enquanto o servidor estiver de pé
+- Configura uma url que, quando chamada, dispara uma nova compra (realiza o dispatcher)
+- Habilitar a URL para receber os parâmetros da compra, através do uso do httpServletRequest
+
+Atenção, é uma boa prática executar o mínimo de processos possíveis, antes de enviar uma mensagem, quando utilizar servletHTTP, pois o acúmulo de código torna o servidor passível de crashar. Tenha em mente enviar a primeira mensagem e disparar em cascata as chamadas de outros processos, encarragados por outras mensagens, pois se alguma falha ocorrer nesse meio, é mais fácil lidar com isso, uma vez que, em algum lugar, existe uma mensagem com os dados antes da falha ter ocorrido.
+
+Inapropriado:S
+![](images/incorrect.png)
+
+Apropriado
+![](images/correct.png)
