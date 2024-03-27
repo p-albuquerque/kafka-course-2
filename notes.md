@@ -160,4 +160,14 @@ Assim como os services "kafkaconsumers" são resilientes, ou seja, podemos rodar
 - Parar execução de todos os services e brokers (zookeeper e kafka server)
 Agora, cada tópico tem réplicas em dois brokers, um lider e um réplica;
 
+# Acknowledge
+Um request pode ser considerado completo em diferentes pontos do fluxo dos brokers:
+0: Assim que a mensagem é criada, antes do lider enviar, antes das réplicas serem informadas. Garantia praticamente nula
+1: Assim que o líder registra no log a mensagem, antes das réplicas serem informadas.
+all: Assim que o líder registrar no log e todas as réplicas serem informadas e também registrarem no seus respectivos logs. Propriedade mais segura, menos performática;
 
+Essa propriedade é setada nos properties do producer:
+```
+properties.setProperty(ProducerConfig.ACKS_CONFIG, "all");
+```
+Em resumo: não importa quantas réplicas houverem, a garantia que todas elas irão estar com as mensagens mais atuais só é efetivada, se o *acks_config* for "all"
