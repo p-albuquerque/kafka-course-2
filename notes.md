@@ -132,3 +132,32 @@ Inapropriado:S
 
 Apropriado
 ![](images/correct.png)
+
+# Cluster de brokers
+Assim como os services "kafkaconsumers" são resilientes, ou seja, podemos rodar várias cópias/réplicas de uma vez e, caso uma delas fique fora do ar, as demais vão rebalancear as partições para assumir as que, até então, pertenciam ao serviço caído, precisamos desse tipo de resiliência para os brokers, que enviam as mensagens.
+
+- Definir um novo server properties, que representará o novo broker:
+    ```
+    cp config/server.properties config/server2.properties
+    ```
+- Com essa cópia criada, precisa-se distinguí-la da anterior:
+    - Definir *broker.id* diferente
+    - Definir diretório de logs *logs.dir* diferente
+    - Definir *listener=PLAINTEXT://:* diferente
+
+- Levantar server2:
+    ```
+    bin/kafka-server-start.sh config/server.properties
+    ```
+
+- Alterar tópico para ser replicado no novo broker *replication factor*:
+    ```
+    bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic ECOMMERCE_NEW_ORDER --partition 3 --replication-factor 2 
+    ```
+
+- Inserir replication default para cada server properties:
+    - *dfault.replication.factor=* (não existe, precisa ser escrito dentro do properties)
+- Parar execução de todos os services e brokers (zookeeper e kafka server)
+Agora, cada tópico tem réplicas em dois brokers, um lider e um réplica;
+
+
